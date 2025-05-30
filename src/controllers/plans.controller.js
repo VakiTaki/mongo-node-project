@@ -5,18 +5,18 @@ const getPlans = async (req, res) => {
     const plans = await Plan.find();
     res.json(plans);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
 
 const getPlan = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: 'Неверный формат ID' });
     }
     const plan = await Plan.findById(req.params.id);
     if (!plan) {
-      return res.status(404).json({ message: 'Plan not found' });
+      return res.status(404).json({ message: 'План не найден' });
     }
     res.json(plan);
   } catch (error) {
@@ -88,7 +88,7 @@ const deletePlan = async (req, res) => {
       return res.status(404).json({ message: 'Plan not found' });
     }
     res.json({
-      message: 'Plan deleted successfully',
+      message: 'План успешно удален',
       deletedPlan: deletedPlan
     });
   } catch (error) {

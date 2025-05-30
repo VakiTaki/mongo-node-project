@@ -11,9 +11,9 @@ app.use('/plans', plansRouter);
 async function connectDB() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Connected to MongoDB');
+    console.log('✅ Успешное подключение к MongoDB');
   } catch (e) {
-    console.error('MongoDB connection error:', e);
+    console.error('Ошибка подключения к MongoDB:', e);
     process.exit(1);
   }
 }
