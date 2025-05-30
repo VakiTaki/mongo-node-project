@@ -8,3 +8,5 @@ build/
 .vscode/
 *.env.local
 docker-compose.yml
+.aider.*
+.aider*
