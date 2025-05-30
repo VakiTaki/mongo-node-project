@@ -29,12 +29,40 @@ async function start() {
       res.status(201).json(plan);
     });
 
-    // Обновить план по id
+    // Полное обновление плана (PUT)
     app.put('/plans/:id', async (req, res) => {
       const id = req.params.id;
-      const updateData = req.body;
       try {
-        const updatedPlan = await Plan.findOneAndUpdate({ id: id }, updateData, { new: true });
+        // Проверяем, что переданы все обязательные поля
+        if (!req.body.name) {
+          return res.status(400).json({ message: 'Name is required' });
+        }
+        
+        const updatedPlan = await Plan.findOneAndUpdate(
+          { id: id },
+          { $set: req.body },
+          { new: true, runValidators: true }
+        );
+        
+        if (!updatedPlan) {
+          return res.status(404).json({ message: 'Plan not found' });
+        }
+        res.json(updatedPlan);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+    });
+
+    // Частичное обновление плана (PATCH)
+    app.patch('/plans/:id', async (req, res) => {
+      const id = req.params.id;
+      try {
+        const updatedPlan = await Plan.findOneAndUpdate(
+          { id: id },
+          { $set: req.body },
+          { new: true, runValidators: true }
+        );
+        
         if (!updatedPlan) {
           return res.status(404).json({ message: 'Plan not found' });
         }
