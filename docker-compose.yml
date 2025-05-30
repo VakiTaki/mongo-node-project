@@ -20,21 +20,11 @@ services:
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
-    env_file:
-      - .env
     environment:
-      - MONGO_URI=${MONGO_URI}
-      - PORT=${PORT}
-    command: node src/server.js
-
-  frontend:
-    build: .
-    container_name: project-frontend
-    depends_on:
-      - backend
-    ports:
-      - "3001:3001"
-    command: serve -s public -l 3001
+      - MONGO_URI=mongodb://mongo:27017/testdb
+      - PORT=3000
+    command: sh -c "sleep 10 && node src/server.js"
 
 volumes:
   mongo-data:
+    driver: local

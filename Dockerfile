@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:18
 
 WORKDIR /usr/src/app
 
@@ -16,16 +16,12 @@ RUN cd frontend && npm run build
 # Копируем бэкенд
 COPY src/ src/
 
-# Финальный образ
-FROM node:18
 WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/package*.json ./
-COPY --from=builder /usr/src/app/src ./src
-COPY --from=builder /usr/src/app/frontend/build ./public
+COPY package*.json ./
+RUN npm install
 
-# Устанавливаем serve для статики
-RUN npm install -g serve
+COPY src/ src/
+COPY frontend/build/ public/
 
 CMD ["node", "src/server.js"]
