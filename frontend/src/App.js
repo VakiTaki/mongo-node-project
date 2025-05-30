@@ -85,15 +85,16 @@ function App() {
 
   const actionBodyTemplate = (rowData) => {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-content-end">
         <Button
           icon="pi pi-pencil"
-          className="p-button-rounded p-button-success"
+          className="p-button-rounded p-button-success p-button-sm"
           onClick={() => handleEdit(rowData)}
+          style={{ marginRight: '0.5rem' }}
         />
         <Button
           icon="pi pi-trash"
-          className="p-button-rounded p-button-danger"
+          className="p-button-rounded p-button-danger p-button-sm"
           onClick={() => handleDelete(rowData)}
         />
       </div>
@@ -101,31 +102,42 @@ function App() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 surface-ground min-h-screen">
       <Toast ref={toast} />
-      <div className="flex justify-content-between align-items-center mb-4">
-        <h1>Управление планами</h1>
-        <Button
-          label="Добавить план"
-          icon="pi pi-plus"
-          onClick={() => {
-            setPlan({ name: '' });
-            setEditing(false);
-            setVisible(true);
-          }}
-        />
-      </div>
+      <div className="surface-card p-4 shadow-2 border-round">
+        <div className="flex justify-content-between align-items-center mb-4">
+          <h1 className="m-0">Управление планами</h1>
+          <Button
+            label="Добавить план"
+            icon="pi pi-plus"
+            onClick={() => {
+              setPlan({ name: '' });
+              setEditing(false);
+              setVisible(true);
+            }}
+          />
+        </div>
 
-      <DataTable
-        value={plans}
-        paginator
-        rows={5}
-        rowsPerPageOptions={[5, 10, 25]}
-        tableStyle={{ minWidth: '50rem' }}
-      >
-        <Column field="name" header="Название" sortable />
-        <Column body={actionBodyTemplate} header="Действия" />
-      </DataTable>
+        <DataTable
+          value={plans}
+          paginator
+          rows={5}
+          rowsPerPageOptions={[5, 10, 25]}
+          tableStyle={{ minWidth: '50rem' }}
+          className="p-datatable-striped"
+          scrollable
+          scrollHeight="flex"
+          style={{ height: 'calc(100vh - 200px)' }}
+        >
+          <Column field="name" header="Название" sortable style={{ width: '70%' }} />
+          <Column 
+            body={actionBodyTemplate} 
+            header="Действия" 
+            style={{ width: '30%' }}
+            bodyStyle={{ textAlign: 'right', paddingRight: '2rem' }}
+          />
+        </DataTable>
+      </div>
 
       <Dialog
         visible={visible}
