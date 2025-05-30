@@ -12,13 +12,11 @@ services:
     volumes:
       - mongo-data:/data/db
 
-  node-app:
+  backend:
     build: .
-    container_name: project-node
+    container_name: project-backend
     depends_on:
       - mongo
-    # volumes:
-    #   - .:/usr/src/app
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
@@ -26,6 +24,15 @@ services:
       - MONGO_URI=mongodb://mongo:27017/testdb
       - PORT=3000
     command: node src/server.js
+
+  frontend:
+    build: .
+    container_name: project-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3001:3001"
+    command: serve -s public -l 3001
 
 volumes:
   mongo-data:

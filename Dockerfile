@@ -28,4 +28,4 @@ COPY --from=builder /usr/src/app/frontend/build ./public
 # Устанавливаем serve для статики
 RUN npm install -g serve
 
-CMD ["sh", "-c", "node src/server.js & serve -s public -l 3001"]
+CMD ["node", "src/server.js"]
