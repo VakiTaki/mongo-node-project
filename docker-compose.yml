@@ -3,7 +3,7 @@ version: "3.8"
 services:
   mongo:
     image: mongo:6
-    container_name: проект-mongo
+    container_name: project-mongo
     restart: always
     ports:
       - "27017:27017"
@@ -14,7 +14,7 @@ services:
 
   node-app:
     build: .
-    container_name: проект-node
+    container_name: project-node
     depends_on:
       - mongo
     # volumes:

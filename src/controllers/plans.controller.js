@@ -20,7 +20,7 @@ const getPlan = async (req, res) => {
     }
     res.json(plan);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
 
@@ -30,14 +30,14 @@ const createPlan = async (req, res) => {
     await plan.save();
     res.status(201).json(plan);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: 'Ошибка валидации' });
   }
 };
 
 const updatePlan = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: 'Неверный формат ID' });
     }
     if (!req.body.name) {
       return res.status(400).json({ message: 'Имя обязательное' });
@@ -50,7 +50,7 @@ const updatePlan = async (req, res) => {
     );
 
     if (!updatedPlan) {
-      return res.status(404).json({ message: 'Plan not found' });
+      return res.status(404).json({ message: 'План не найден' });
     }
     res.json(updatedPlan);
   } catch (error) {
