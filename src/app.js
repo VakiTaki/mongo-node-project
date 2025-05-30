@@ -12,7 +12,10 @@ app.use('/plans', plansRouter);
 
 async function connectDB() {
   try {
-    const mongoUri = process.env.MONGO_URI || 'mongodb://mongo:27017/testdb';
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MongoDB connection string is not defined');
+    }
     console.log('Connecting to MongoDB with URI:', mongoUri);
     
     await mongoose.connect(mongoUri, {

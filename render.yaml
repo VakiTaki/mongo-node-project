@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mongo-node-app
+    env: node
+    build:
+      dockerfile: Dockerfile
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://<username>:<password>@cluster.mongodb.net/testdb?retryWrites=true&w=majority
+      - key: PORT
+        value: 3000
