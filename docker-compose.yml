@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: project-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: testdb
+    volumes:
+      - mongo-data:/data/db
+
+  node-app:
+    build: .
+    container_name: project-node
+    depends_on:
+      - mongo
+    # volumes:
+    #   - .:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/testdb
+      - PORT=3000
+    command: node index.js
+
+volumes:
+  mongo-data:
