@@ -43,15 +43,16 @@ async function start() {
 
     // Полное обновление плана (PUT)
     app.put('/plans/:id', async (req, res) => {
-      const id = req.params.id;
       try {
-        // Проверяем, что переданы все обязательные поля
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+          return res.status(400).json({ message: 'Invalid ID format' });
+        }
         if (!req.body.name) {
           return res.status(400).json({ message: 'Name is required' });
         }
         
-        const updatedPlan = await Plan.findOneAndUpdate(
-          { id: id },
+        const updatedPlan = await Plan.findByIdAndUpdate(
+          req.params.id,
           { $set: req.body },
           { new: true, runValidators: true }
         );
