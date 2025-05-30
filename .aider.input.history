@@ -458,3 +458,33 @@
 
 # 2025-05-30 12:12:19.272216
 +n
+
+# 2025-05-30 12:18:33.672968
++все равно та же ошибка ==> Deploying...
++Connecting to MongoDB with URI: mongodb://mongo:27017/testdb
++Ошибка подключения к MongoDB: getaddrinfo ENOTFOUND mongo
++==> Exited with status 1
++==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
++Connecting to MongoDB with URI: mongodb://mongo:27017/testdb
++Ошибка подключения к MongoDB: getaddrinfo ENOTFOUND mongo
+
+# 2025-05-30 12:18:45.105187
++n
+
+# 2025-05-30 12:19:58.087140
++все равно ошибка подключения к монго  ==> Deploying...
++Connecting to MongoDB with URI: mongodb://mongo:27017/testdb
++Ошибка подключения к MongoDB: getaddrinfo ENOTFOUND mongo
++==> Exited with status 1
++==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
++Connecting to MongoDB with URI: mongodb://mongo:27017/testdb
++Ошибка подключения к MongoDB: getaddrinfo ENOTFOUND mongo
+
+# 2025-05-30 12:20:00.805740
++n
+
+# 2025-05-30 12:20:40.347385
++y
+
+# 2025-05-30 12:21:57.917465
++n
