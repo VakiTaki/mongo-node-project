@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const PlanSchema = new mongoose.Schema({
-  id: Number,
   name: String,
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model('Plan', PlanSchema);

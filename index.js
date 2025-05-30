@@ -5,11 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 
-const planSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-});
-const Plan = mongoose.model('Plan', planSchema);
+const Plan = require('./models/Plan');
 
 async function start() {
   try {
@@ -25,7 +21,10 @@ async function start() {
     // Получить план по ID
     app.get('/plans/:id', async (req, res) => {
       try {
-        const plan = await Plan.findOne({ id: req.params.id });
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+          return res.status(400).json({ message: 'Invalid ID format' });
+        }
+        const plan = await Plan.findById(req.params.id);
         if (!plan) {
           return res.status(404).json({ message: 'Plan not found' });
         }
@@ -68,10 +67,12 @@ async function start() {
 
     // Частичное обновление плана (PATCH)
     app.patch('/plans/:id', async (req, res) => {
-      const id = req.params.id;
       try {
-        const updatedPlan = await Plan.findOneAndUpdate(
-          { id: id },
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+          return res.status(400).json({ message: 'Invalid ID format' });
+        }
+        const updatedPlan = await Plan.findByIdAndUpdate(
+          req.params.id,
           { $set: req.body },
           { new: true, runValidators: true }
         );
@@ -87,9 +88,11 @@ async function start() {
 
     // Удалить план по id
     app.delete('/plans/:id', async (req, res) => {
-      const id = req.params.id;
       try {
-        const deletedPlan = await Plan.findOneAndDelete({ id: id });
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+          return res.status(400).json({ message: 'Invalid ID format' });
+        }
+        const deletedPlan = await Plan.findByIdAndDelete(req.params.id);
         if (!deletedPlan) {
           return res.status(404).json({ message: 'Plan not found' });
         }
