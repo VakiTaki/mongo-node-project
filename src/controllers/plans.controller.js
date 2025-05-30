@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Plan = require('../models/Plan');
 
 const getPlans = async (req, res) => {
@@ -54,14 +55,14 @@ const updatePlan = async (req, res) => {
     }
     res.json(updatedPlan);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: 'Ошибка валидации' });
   }
 };
 
 const patchPlan = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: 'Неверный формат ID' });
     }
     const updatedPlan = await Plan.findByIdAndUpdate(
       req.params.id,
@@ -70,7 +71,7 @@ const patchPlan = async (req, res) => {
     );
 
     if (!updatedPlan) {
-      return res.status(404).json({ message: 'Plan not found' });
+      return res.status(404).json({ message: 'План не найден' });
     }
     res.json(updatedPlan);
   } catch (error) {
@@ -92,7 +93,7 @@ const deletePlan = async (req, res) => {
       deletedPlan: deletedPlan
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
 
