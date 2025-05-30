@@ -12,10 +12,18 @@ app.use('/plans', plansRouter);
 
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    if (!process.env.MONGO_URI) {
+      throw new Error('MONGO_URI is not defined in environment variables');
+    }
+    
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000
+    });
     console.log('✅ Успешное подключение к MongoDB');
   } catch (e) {
-    console.error('Ошибка подключения к MongoDB:', e);
+    console.error('Ошибка подключения к MongoDB:', e.message);
     process.exit(1);
   }
 }
