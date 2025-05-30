@@ -22,6 +22,19 @@ async function start() {
       res.json(plans);
     });
 
+    // Получить план по ID
+    app.get('/plans/:id', async (req, res) => {
+      try {
+        const plan = await Plan.findOne({ id: req.params.id });
+        if (!plan) {
+          return res.status(404).json({ message: 'Plan not found' });
+        }
+        res.json(plan);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    });
+
     // Добавить новый план
     app.post('/plans', async (req, res) => {
       const plan = new Plan(req.body);
@@ -80,9 +93,12 @@ async function start() {
         if (!deletedPlan) {
           return res.status(404).json({ message: 'Plan not found' });
         }
-        res.json({ message: 'Plan deleted' });
+        res.json({ 
+          message: 'Plan deleted successfully',
+          deletedPlan: deletedPlan 
+        });
       } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(500).json({ message: error.message });
       }
     });
 
