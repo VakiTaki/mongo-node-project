@@ -9,7 +9,8 @@ RUN npm install
 # Копируем и собираем фронтенд
 COPY frontend/package*.json frontend/
 RUN cd frontend && npm install
-COPY frontend/ frontend/
+COPY frontend/public frontend/public
+COPY frontend/src frontend/src
 RUN cd frontend && npm run build
 
 # Копируем бэкенд
