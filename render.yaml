@@ -4,8 +4,17 @@ services:
     env: node
     build:
       dockerfile: Dockerfile
+    env: node
+    plan: free
     envVars:
       - key: MONGO_URI
-        value: mongodb+srv://<username>:<password>@cluster.mongodb.net/testdb?retryWrites=true&w=majority
+        fromDatabase:
+          name: project-mongo
+          property: connectionString
       - key: PORT
         value: 3000
+databases:
+  - name: project-mongo
+    plan: free
+    databaseName: testdb
+    user: render

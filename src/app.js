@@ -16,9 +16,13 @@ async function connectDB() {
     if (!mongoUri) {
       throw new Error('MongoDB connection string is not defined');
     }
-    console.log('Connecting to MongoDB with URI:', mongoUri);
+    
+    // Логируем только начало URI для безопасности
+    console.log('Connecting to MongoDB with URI:', mongoUri.substring(0, mongoUri.indexOf('@')+1) + '...');
     
     await mongoose.connect(mongoUri, {
+      retryWrites: true,
+      w: 'majority',
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
