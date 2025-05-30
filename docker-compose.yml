@@ -25,7 +25,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/testdb
       - PORT=3000
-    command: node index.js
+    command: node src/server.js
 
 volumes:
   mongo-data:
